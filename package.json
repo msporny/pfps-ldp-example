@@ -1,0 +1,16 @@
+{
+  "name": "pfps-ldp-example",
+  "version": "1.0.0",
+  "description": "Linked Data Proofs example for PFPS",
+  "main": "index.js",
+  "dependencies": {
+    "@digitalbazaar/ed25519-signature-2020": "^2.2.0",
+    "jsonld-signatures": "^9.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manu Sporny",
+  "license": "BSD-3-Clause"
+}
