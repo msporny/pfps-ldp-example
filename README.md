@@ -30,6 +30,7 @@ To verify, pass the `signedData` to `jsigs.verify` and print the result, which w
   },
   "title": "Hello world!"
 }
+
 -------------- NQUADS ---------------
 _:b0 <https://schema.org#title> "Hello world!" .
 
