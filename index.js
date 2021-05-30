@@ -2,6 +2,8 @@
  * Copyright (c) 2021 Digital Bazaar, Inc. All rights reserved.
  */
 const jsigs = require('jsonld-signatures');
+const jsonld = require('jsonld');
+
 const {purposes: {AssertionProofPurpose}} = jsigs;
 const {Ed25519VerificationKey2020} = require('@digitalbazaar/ed25519-verification-key-2020');
 const {Ed25519Signature2020, suiteContext} = require('@digitalbazaar/ed25519-signature-2020');
@@ -24,6 +26,22 @@ async function main() {
   console.log('-------------- UNSIGNED DATA ---------------');
   console.log(JSON.stringify(unsignedData, null, 2));
 
+  // convert JSON-LD to NQuads
+  const nquads = await jsonld.toRDF(unsignedData, {
+    documentLoader,
+    format: 'application/n-quads'
+  });
+  console.log('\n-------------- NQUADS ---------------');
+  console.log(nquads);
+
+  // Perform RDF Dataset canonicalization on the unsigned data
+  const c14nQuads = await jsonld.canonize(unsignedData, {
+    algorithm: 'URDNA2015',
+    format: 'application/n-quads'
+  });
+  console.log('\n-------------- CANONICALIZED NQUADS ---------------');
+  console.log(c14nQuads);
+
   // set up the keypair that will be used to generate the digital signature
   const keyPair = await Ed25519VerificationKey2020.from({...mockKeyPair2020});
   // create the cryptosuite that will perform the signature
@@ -39,7 +57,7 @@ async function main() {
     purpose: new AssertionProofPurpose(),
     documentLoader
   });
-  console.log('-------------- SIGN ---------------');
+  console.log('\n-------------- SIGN ---------------');
   console.log(JSON.stringify(unsignedData, null, 2));
 
   // create the cryptosuite that will verify the signature
@@ -55,7 +73,15 @@ async function main() {
     documentLoader
   });
 
-  console.log('-------------- VERIFY ---------------');
+  // Perform RDF Dataset canonicalization on the signed data
+  const signedC14nQuads = await jsonld.canonize(signedData, {
+    algorithm: 'URDNA2015',
+    format: 'application/n-quads'
+  });
+  console.log('\n-------------- CANONICALIZED SIGNED NQUADS ---------------');
+  console.log(signedC14nQuads);
+
+  console.log('\n-------------- VERIFY ---------------');
   console.log(JSON.stringify(verified, null, 2));
 
 }

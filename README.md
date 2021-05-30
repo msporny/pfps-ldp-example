@@ -30,6 +30,12 @@ To verify, pass the `signedData` to `jsigs.verify` and print the result, which w
   },
   "title": "Hello world!"
 }
+-------------- NQUADS ---------------
+_:b0 <https://schema.org#title> "Hello world!" .
+
+-------------- CANONICALIZED NQUADS ---------------
+_:c14n0 <https://schema.org#title> "Hello world!" .
+
 -------------- SIGN ---------------
 {
   "@context": [
@@ -47,6 +53,16 @@ To verify, pass the `signedData` to `jsigs.verify` and print the result, which w
     "proofValue": "z4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYVQeVbY8nQAVHMrXFkXJpmEcqdoDwLWxaqA3Q1geV6"
   }
 }
+
+-------------- CANONICALIZED SIGNED NQUADS ---------------
+_:c14n0 <http://purl.org/dc/terms/created> "2021-05-29T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> _:c14n2 .
+_:c14n0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#Ed25519Signature2020> _:c14n2 .
+_:c14n0 <https://w3id.org/security#proofPurpose> <https://w3id.org/security#assertionMethod> _:c14n2 .
+_:c14n0 <https://w3id.org/security#proofValue> "z4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYVQeVbY8nQAVHMrXFkXJpmEcqdoDwLWxaqA3Q1geV6"^^<https://w3id.org/security#multibase> _:c14n2 .
+_:c14n0 <https://w3id.org/security#verificationMethod> <https://pfps.example/issuer#z6MkjLrk3gKS2nnkeWcmcxiZPGskmesDpuwRBorgHxUXfxnG> _:c14n2 .
+_:c14n1 <https://schema.org#title> "Hello world!" .
+_:c14n1 <https://w3id.org/security#proof> _:c14n2 .
+
 -------------- VERIFY ---------------
 {
   "verified": true,
